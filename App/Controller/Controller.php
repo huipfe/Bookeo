@@ -22,8 +22,9 @@ Class Controller
                         break;
                     case 'book':
                         // Charger Book controller
-                        // $bookController = new BookController();
-                        // $bookController->route();
+                        $bookController = new BookController();
+                        $bookController->route();
+                        // var_dump('On charge Book controller');
                         break;
                     default:
                         throw new \Exception('Le controller n\'existe pas');
