@@ -7,31 +7,37 @@ Class Controller
 {
     public function route() : void
     {
-        if (isset($_GET['controller'])) {
-            switch ($_GET['controller']) {
-                case 'page':
-                    // Charger page controller
-                    $pageController = new PageController();
-                    $pageController->route();
+        try {
+            if (isset($_GET['controller'])) {
+                switch ($_GET['controller']) {
+                    case 'page':
+                        // Charger page controller
+                        $pageController = new PageController();
+                        $pageController->route();
+                        break;
+                    case 'category':
+                        // Charger category controller
+                        // $categoryController = new CategoryController();
+                        // $categoryController->route();
+                        break;
+                    case 'book':
+                        // Charger Book controller
+                        // $bookController = new BookController();
+                        // $bookController->route();
+                        break;
+                    default:
+                        throw new \Exception('Le controller n\'existe pas');
                     break;
-                case 'category':
-                    // Charger category controller
-                    // $categoryController = new CategoryController();
-                    // $categoryController->route();
-                    break;
-                case 'book':
-                    // Charger Book controller
-                    // $bookController = new BookController();
-                    // $bookController->route();
-                    break;
-                default:
-                   //Error 404
-                break;
+                }
+            } else {
+                // Charger la page d'acceuil du site, si pas de controleur dans l'url.
+                $homeController = new PageController();
+                $homeController->home();
             }
-        } else {
-            // Charger la page d'acceuil du site
-            // $homeController = new HomeController();
-            // $homeController->index();
+        }  catch(\Exception $e) {
+            $this->render('error/default', [
+                'error' => $e->getMessage()
+            ]);
         }
     } 
 
@@ -51,19 +57,10 @@ Class Controller
             require_once $filePath;
         }
         }catch(\Exception $e) {
-            echo $e->getMessage();
+            $this->render('error/default', [
+                'error' => $e->getMessage()
+            ]);
         }
-
-
-
-        // // On démarre le buffer de sortie
-        // ob_start();
-        // // On inclut le template
-        // require_once 'templates/' . $path . '.php';
-        // // On stocke le contenu du buffer dans une variable
-        // $content = ob_get_clean();
-        // // On inclut le template qui utilise le layout
-        // require_once 'templates/layout.php';
     }
 }
 

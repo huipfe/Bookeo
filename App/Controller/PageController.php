@@ -6,31 +6,36 @@ class PageController extends Controller
 {
     public function route() : void
     {
-        if (isset($_GET['action'])) {
-        switch ($_GET['action']) {
-            case 'about':
-                // Appeler la méthode About
-                $this->about();
-                break;
-            case 'home':
-                // Appeler la méthode Home
-                var_dump('On Appele la méthode Home');
-                break;
-            default:
-                   //Error 404
-                break;
+        try {
+            if (isset($_GET['action'])) {
+            switch ($_GET['action']) {
+                case 'about':
+                    // Appeler la méthode About
+                    $this->about();
+                    break;
+                case 'home':
+                    // Charger controller Home
+                    $this->home();
+                    break;
+                default:
+                        throw new \Exception('L\'action demandée n\'existe pas : '   .$_GET['action']);
+                    break;
+                }
+            } else {
+                // S'il n'y a pas d'action
+                throw new \Exception('Aucune action détectée');
             }
-        } else {
-            // Charger la page d'acceuil du site
-            // $homeController = new HomeController();
-            // $homeController->index();
+            }catch(\Exception $e) {
+            $this->render('error/default', [
+                'error' => $e->getMessage()
+            ]);
         }
     } 
 
     protected function about()
     {
-        /* On pourrait récup les données
-            en faisant apelle au modèle
+        /* On passe en premier le para à charger
+            et en deuxième un tableau associatif de paramètres
         */
         $params = [
             'title' => 'A Propos2',
@@ -41,7 +46,21 @@ class PageController extends Controller
         // Faire le rendu, en faisant une nouvelle méthode
         $this->render('page/about', $params);
     }
+
+
+        protected function home()
+    {
+
+        // Faire le rendu, en faisant une nouvelle méthode
+        $this->render('page/home', [
+
+        ]);
+    }
+
 }
+
+
+
 
 
 ?>
