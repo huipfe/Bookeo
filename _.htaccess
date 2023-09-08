@@ -1,0 +1,6 @@
+RewriteEngine On
+
+RewriteRule ^a-propos/$ /studi/live/bookeo/index.php?controller=page&action=about
+
+RewriteRule ^a-propos/$ /studi/live/bookeo/index.php?controller=book&action=show
+                                          /index.php?controller=book&action=show&id=0 
